@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
   before_action :authenticate_user!, except: [:index, :show]
   # GET /posts
   # GET /posts.json
@@ -12,6 +12,18 @@ class PostsController < ApplicationController
   def show
   end
 
+  def upvote
+    @user = current_user
+    @post.liked_by @user
+    redirect_to @post
+  end
+
+  def downvote
+    @user = current_user
+    @post.disliked_by @user
+    redirect_to @post    
+  end
+  
   # GET /posts/new
   def new
     @post = Post.new
