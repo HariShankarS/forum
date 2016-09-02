@@ -12,8 +12,16 @@
   Submitted by <%= @post.user.email %> 
   <%= time_ago_in_words(@post.updated_at) %> ago
 </p>	
+
 <%= link_to "Like", like_post_path(@post), method: :get, class: "btn btn-default" %>
 <%= @post.get_upvotes.size %> Likes	
+<h2><%= pluralize(@post.comments.count,"comment") %></h2>
+ 		<%= render @post.comments %>
+
+ 		<% if user_signed_in? %>
+ 		<h3>Add a Comment </h3>	
+ 		  <%= render "comments/form"%>
+ 		<% end -%>
 <%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' } %>
 <%= link_to 'Edit', edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>
